@@ -4,7 +4,9 @@
 .login-parent-container {
   background: linear-gradient(90deg, #ecbc76 50%, #ffffff 50%);
 }
-
+.mobile-logo {
+  display: none;
+}
 .login-container {
   /* margin-top: 15px; */
   background-color: #ffffff;
@@ -33,18 +35,43 @@
 @media (min-width: 100px) and (max-width: 1024px) {
   .login-parent-container {
     background: #ecbc76 !important;
+    flex-direction: column;
+    margin: 0 auto !important;
   }
   .img-1,
   .social-logins,
-  .seperator {
+  .seperator,
+  .soly-img,
+  .window-logo {
     display: none !important;
   }
 
-  .login-container {
-    width: 326px;
+  .mobile-logo {
+    display: block;
   }
 
-  .soly-img {
-    display: none;
+  .login-container {
+    width: 326px !important;
+  }
+
+  .heading {
+    font-size: 30px !important;
+  }
+  .greeting {
+    font-size: 15px !important;
+    text-align: left;
+  }
+  .greeting span {
+    color: #e48700;
+  }
+  .signup span {
+    margin-left: 3px;
+    font-size: 13px !important;
+  }
+  .input-label {
+    font-size: 12px !important;
+  }
+  .login-container .flex div:nth-child(1) {
+    width: 90% !important;
   }
 }
