@@ -6,8 +6,27 @@ import Google from "../assets/google.svg";
 import Apple from "../assets/apple.svg";
 import Facebook from "../assets/Facebook.svg";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import { LoginSchema } from "../validations/yupValidations";
+import { useAppDispatch } from "../store/hooks";
+import { authActions } from "../store/slices/authSlice";
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const formikLogin = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: LoginSchema,
+    onSubmit: (values) => {
+      dispatch(authActions.login({ values }));
+    },
+  });
+
+  const { errors, touched } = formikLogin;
+
   return (
     <div className="h-[100vh] login-parent-container relative flex items-center justify-center font-poppins font-normal">
       <span className="window-logo absolute text-lg text-[#C6553B] top-[5px] left-[10px] font-poppins">
@@ -33,7 +52,7 @@ const Login = () => {
               </p>
               <p className="text-[45px] font-medium heading">Sign in</p>
             </div>
-            <div className="self-start signup">
+            <div className="self-start signup signin">
               <span className="text-[#8D8D8D] text-[16px]">No Account ?</span>
               <br />
               <Link to="/signup" className="text-[#E48700] text-[15px]">
@@ -41,47 +60,63 @@ const Login = () => {
               </Link>
             </div>
           </div>
-          <div className="mt-5">
-            <label
-              htmlFor="email"
-              className="input-label block text-sm font-medium leading-6 text-black"
-            >
-              Enter your username or email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 p-2"
-              />
+          <form onSubmit={formikLogin.handleSubmit}>
+            <div className="mt-5">
+              <label
+                htmlFor="email"
+                className="input-label block text-sm font-medium leading-6 text-black"
+              >
+                Enter your username or email address
+              </label>
+              <div className="mt-2">
+                <input
+                  id="email"
+                  name="email"
+                  type="text"
+                  onChange={(e) => {
+                    formikLogin.setFieldValue("email", e?.target?.value);
+                    formikLogin.setFieldTouched("email", true, false);
+                  }}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 p-2"
+                />
+                {errors.email && touched.email && (
+                  <small className="formik-error">{errors.email}</small>
+                )}
+              </div>
+              <label
+                htmlFor="password"
+                className="input-label block text-sm font-medium leading-6 text-black mt-[20px]"
+              >
+                Enter your password
+              </label>
+              <div className="mt-1 relative">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  onChange={(e) => {
+                    formikLogin.setFieldValue("password", e?.target?.value);
+                    formikLogin.setFieldTouched("password", true, false);
+                  }}
+                  className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6"
+                />
+                <img
+                  src={Eye}
+                  alt="Eye"
+                  className="absolute top-2 right-3 cursor-pointer"
+                />
+                {errors.password && touched.password && (
+                  <small className="formik-error">{errors.password}</small>
+                )}
+              </div>
+              <button className="text-[#AD3113] text-[13px] float-right mt-[15px]">
+                Forgot Password
+              </button>
             </div>
-            <label
-              htmlFor="password"
-              className="input-label block text-sm font-medium leading-6 text-black mt-[20px]"
-            >
-              Enter your password
-            </label>
-            <div className="mt-1 relative">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="password"
-                className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6"
-              />
-              <img
-                src={Eye}
-                alt="Eye"
-                className="absolute top-2 right-3 cursor-pointer"
-              />
-            </div>
-            <button className="text-[#AD3113] text-[13px] float-right mt-[15px]">
-              Forgot Password
+            <button className="sign-in-btn" type="submit">
+              Sign In
             </button>
-          </div>
-          <button className="sign-in-btn">Sign In</button>
+          </form>
           <p className="text-[#ABABAB] text-[16px] text-center my-[15px] seperator">
             OR
           </p>

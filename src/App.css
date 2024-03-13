@@ -22,13 +22,17 @@
 }
 
 .sign-in-btn {
-  background-color: #e48700;
+  background-color: #e48700 !important;
   color: #ffffff;
   width: 100%;
   text-align: center;
   border-radius: 10px;
   padding: 10px;
   margin-top: 22px;
+}
+
+.formik-error {
+  color: #d32f2f;
 }
 
 /* Media Query for low resolution  Tablets, Ipads */
@@ -68,8 +72,16 @@
     margin-left: 3px;
     font-size: 13px !important;
   }
+
+  .signin br {
+    display: none !important;
+  }
+
   .input-label {
     font-size: 12px !important;
+  }
+  .login-container .flex div:nth-child(1) {
+    width: 90% !important;
   }
   .login-container .flex div:nth-child(1) {
     width: 90% !important;
